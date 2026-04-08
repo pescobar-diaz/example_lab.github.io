@@ -55,11 +55,52 @@ container.innerHTML = "";
 
 data.feed.forEach(item => {
 
-const div = document.createElement("div");
+const post = document.createElement("div");
+post.style.display = "flex";
+post.style.gap = "16px";
+post.style.padding = "16px 0";
+post.style.borderBottom = "1px solid #eee";
 
-div.innerText = item.post.record.text;
+// IMAGE (safe check)
+if(item.post.embed && item.post.embed.images){
+const img = document.createElement("img");
+img.src = item.post.embed.images[0].thumb;
+img.style.width = "90px";
+img.style.height = "90px";
+img.style.objectFit = "cover";
+post.appendChild(img);
+}
 
-container.appendChild(div);
+// CONTENT
+const content = document.createElement("div");
+
+// CLEAN TEXT
+let text = item.post.record.text
+.replace(/#\w+/g,"")
+.replace(/@\S+/g,"");
+
+// TEXT
+const title = document.createElement("div");
+title.style.fontSize = "16px";
+title.style.marginBottom = "5px";
+title.innerText = text;
+
+// DATE
+const date = document.createElement("div");
+date.style.fontSize = "13px";
+date.style.color = "#777";
+date.innerText = new Date(item.post.record.createdAt)
+.toLocaleDateString("en-US",{
+month:"short",
+day:"numeric",
+year:"numeric"
+});
+
+content.appendChild(title);
+content.appendChild(date);
+
+post.appendChild(content);
+container.appendChild(post);
 
 });
 
