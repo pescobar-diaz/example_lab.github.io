@@ -73,7 +73,12 @@ post.appendChild(img);
 
 // CONTENT
 const content = document.createElement("div");
+let realLink = null;
 
+// check for external link
+if(item.post.embed && item.post.embed.external){
+realLink = item.post.embed.external.uri;
+}
 // CLEAN TEXT
 let text = item.post.record.text
 .replace(/#\w+/g,"")
@@ -96,7 +101,22 @@ return '<a href="' + fullUrl + '" target="_blank" style="color:#2a6ebb;">Read li
 const title = document.createElement("div");
 title.style.fontSize = "16px";
 title.style.marginBottom = "5px";
-title.innerHTML = text;
+title.innerText = text;
+
+// add clickable link ONLY if real link exists
+if(realLink){
+const linkEl = document.createElement("a");
+linkEl.href = realLink;
+linkEl.target = "_blank";
+linkEl.rel = "noopener noreferrer";
+linkEl.style.color = "#2a6ebb";
+linkEl.innerText = "Read more →";
+
+content.appendChild(title);
+content.appendChild(linkEl);
+} else {
+content.appendChild(title);
+}
 
 // DATE
 const date = document.createElement("div");
