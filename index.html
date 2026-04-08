@@ -3,16 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Munday Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
-<style>
-body{
-font-family: Arial, sans-serif;
-margin:0;
-color:#111;
-}
+<body>
 
-/* HERO */
-.hero{
-height:70vh;
-display:flex;
-flex-direction:column;
+<!-- HERO -->
+<section class="hero">
+<h1>Munday Lab</h1>
+<p>Engineering light–matter interactions for energy and quantum technologies</p>
+</section>
+
+<!-- ABOUT -->
+<section class="section">
+<h2>About</h2>
+<p>
+We develop optical materials and devices for energy systems,
+quantum technologies, and space applications.
+</p>
+</section>
+
+<!-- RESEARCH -->
+<section class="section">
+<h2>Research</h2>
+
+<div class="grid">
+<div class="card">Thermophotovoltaics</div>
+<div class="card">Quantum optics</div>
+<div class="card">Energy materials</div>
+</div>
+
+</section>
+
+<!-- LAB UPDATES -->
+<section class="section">
+<h2>Lab Updates</h2>
+<div id="bluesky-feed"></div>
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>
