@@ -61,7 +61,7 @@ post.style.gap = "16px";
 post.style.padding = "16px 0";
 post.style.borderBottom = "1px solid #eee";
 
-// IMAGE (safe check)
+// IMAGE
 if(item.post.embed && item.post.embed.images){
 const img = document.createElement("img");
 img.src = item.post.embed.images[0].thumb;
@@ -73,43 +73,33 @@ post.appendChild(img);
 
 // CONTENT
 const content = document.createElement("div");
-let realLink = null;
 
-// check for external link
-if(item.post.embed && item.post.embed.external){
-realLink = item.post.embed.external.uri;
-}
-// CLEAN TEXT
+// CLEAN TEXT (NO HTML parsing)
 let text = item.post.record.text
 .replace(/#\w+/g,"")
 .replace(/@\S+/g,"");
 
-// convert links to clickable HTML
-text = text.replace(
-/((https?:\/\/)?(www\.)?[^\s]+\.[^\s]+)/g,
-function(url){
-
-// if missing https → add it
-let fullUrl = url.startsWith("http") ? url : "https://" + url;
-
-return '<a href="' + fullUrl + '" target="_blank" style="color:#2a6ebb;">Read link →</a>';
-
-}
-);
-
 // TEXT
 const title = document.createElement("div");
 title.style.fontSize = "16px";
-title.style.marginBottom = "5px";
+title.style.marginBottom = "6px";
 title.innerText = text;
 
-// add clickable link ONLY if real link exists
+// REAL LINK (from API, not text)
+let realLink = null;
+
+if(item.post.embed && item.post.embed.external){
+realLink = item.post.embed.external.uri;
+}
+
+// LINK ELEMENT
 if(realLink){
 const linkEl = document.createElement("a");
 linkEl.href = realLink;
 linkEl.target = "_blank";
-linkEl.rel = "noopener noreferrer";
 linkEl.style.color = "#2a6ebb";
+linkEl.style.display = "inline-block";
+linkEl.style.marginBottom = "6px";
 linkEl.innerText = "Read more →";
 
 content.appendChild(title);
@@ -129,7 +119,6 @@ day:"numeric",
 year:"numeric"
 });
 
-content.appendChild(title);
 content.appendChild(date);
 
 post.appendChild(content);
