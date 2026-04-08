@@ -79,6 +79,14 @@ let text = item.post.record.text
 .replace(/#\w+/g,"")
 .replace(/@\S+/g,"");
 
+// convert links to clickable HTML
+text = text.replace(
+/(https?:\/\/[^\s]+)/g,
+function(url){
+return '<a href="' + url + '" target="_blank" style="color:#2a6ebb;">View link</a>';
+}
+);
+
 // TEXT
 const title = document.createElement("div");
 title.style.fontSize = "16px";
