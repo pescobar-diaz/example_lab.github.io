@@ -88,8 +88,26 @@ title.innerText = text;
 // REAL LINK (from API, not text)
 let realLink = null;
 
+// 1. external link (best case)
 if(item.post.embed && item.post.embed.external){
 realLink = item.post.embed.external.uri;
+}
+
+// 2. fallback → extract from facets (THIS is your missing piece)
+if(!realLink && item.post.record.facets){
+item.post.record.facets.forEach(facet => {
+facet.features.forEach(feature => {
+if(feature.uri){
+realLink = feature.uri;
+}
+});
+});
+}
+
+// 3. final fallback → Bluesky post
+if(!realLink && item.post.uri){
+const postId = item.post.uri.split("/").pop();
+realLink = "https://bsky.app/profile/mundaylab.bsky.social/post/" + postId;
 }
 
 // LINK ELEMENT
