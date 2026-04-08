@@ -81,9 +81,14 @@ let text = item.post.record.text
 
 // convert links to clickable HTML
 text = text.replace(
-/(https?:\/\/[^\s]+)/g,
+/((https?:\/\/)?(www\.)?[^\s]+\.[^\s]+)/g,
 function(url){
-return '<a href="' + url + '" target="_blank" style="color:#2a6ebb;">View link</a>';
+
+// if missing https → add it
+let fullUrl = url.startsWith("http") ? url : "https://" + url;
+
+return '<a href="' + fullUrl + '" target="_blank" style="color:#2a6ebb;">Read link →</a>';
+
 }
 );
 
